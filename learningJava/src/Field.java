@@ -1,8 +1,7 @@
 
-
 public class Field {
 
-    private static final int FIELD_SIZE = 5;
+    private static final int FIELD_SIZE = 3;
 
     private static final char DEFAULT_FIELD_VALUE = ' ';
 
