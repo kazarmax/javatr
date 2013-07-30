@@ -5,6 +5,11 @@ public class Main {
         field.eraseField();
         field.showFields();
 
+        field = new Field(10);
+        field.eraseField();
+        field.showFields();
+
+
     }
 
 }
