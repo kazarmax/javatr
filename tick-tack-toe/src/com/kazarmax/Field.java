@@ -1,3 +1,5 @@
+package com.kazarmax;
+
 public class Field {
 
     public static final int DEFAULT_FIELD_SIZE = 3;
