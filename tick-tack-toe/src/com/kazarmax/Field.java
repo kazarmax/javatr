@@ -19,16 +19,6 @@ public class Field {
     public int fieldCellIndexI = -1;
     public int fieldCellIndexJ = -1;
 
-//    public void showExampleField() {
-//        for (int i = 0; i < 3; i++) {
-//            System.out.println();
-//            for (int j = 0; j < 3; j++) {
-//                System.out.print("[" + exampleField[i][j] + "]");
-//            }
-//        }
-//        System.out.println();
-//    }
-
     public boolean isWin() {
         return checkMainDiag() || checkSubDiag() || checkLines();
     }
@@ -48,7 +38,6 @@ public class Field {
                 }
             }
         }
-        //System.out.println("checkMainDiag = " + checkMainDiag);
         return checkMainDiag;
 
     }
@@ -83,7 +72,6 @@ public class Field {
                 continue;
             }
         }
-        //System.out.println("CheckLines = " + checkLines);
         return checkLines;
     }
 
@@ -98,7 +86,6 @@ public class Field {
                 checkVertLine = true;
             }
         }
-        //System.out.println("checkVertLine = " + checkVertLine);
         return checkVertLine;
     }
 
@@ -113,7 +100,6 @@ public class Field {
                 checkHorLine = true;
             }
         }
-        //System.out.println("checkHorLine = " + checkHorLine);
         return checkHorLine;
     }
 
@@ -175,9 +161,9 @@ public class Field {
         }
     }
 
-    private void getFieldCellCoordinates() {
+    public void getFieldCellCoordinates(String playerName) {
 
-        System.out.println("Введите координаты ячейки");
+        System.out.println("Введите координаты ячейки, " + playerName);
         System.out.println("Номер строки:");
         fieldCellIndexI = getFieldCellIndex();
         System.out.println("Номер столбца:");
@@ -187,18 +173,22 @@ public class Field {
             System.out.println("Вы указали ячейку с координатами: [" + fieldCellIndexI + ", " + fieldCellIndexJ + "]");
         } else {
             System.out.println("Неверные координаты");
-            getFieldCellCoordinates();
+            getFieldCellCoordinates(playerName);
         }
     }
 
-    public void setFieldCell() {
-        getFieldCellCoordinates();
-        field[fieldCellIndexJ][fieldCellIndexI] = 'x';
+    public void setFieldCell(char playerCellValue) {
+        field[fieldCellIndexJ][fieldCellIndexI] = playerCellValue;
 
         showFields();
 
     }
 
+    public void manSetFieldCell(int cellCoordI, int cellCoordJ, char playerCellValue) {
+        field[cellCoordI][cellCoordJ] = playerCellValue;
+
+        showFields();
+    }
 
     private boolean checkIfCorrectCellCoordinates(int i) {
         if (i >= 0 && i < fieldSize) {
