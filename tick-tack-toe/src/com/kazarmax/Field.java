@@ -19,17 +19,17 @@ public class Field {
     public int fieldCellIndexI = -1;
     public int fieldCellIndexJ = -1;
 
-    public boolean isWin() {
-        return checkMainDiag() || checkSubDiag() || checkLines();
+    public boolean isWin(char playerCellValue) {
+        return checkMainDiag(playerCellValue) || checkSubDiag(playerCellValue) || checkLines(playerCellValue);
     }
 
-    private boolean checkMainDiag() {
+    private boolean checkMainDiag(char playerCellValue) {
         boolean checkMainDiag = false;
 
         search:
         for (int i = 0; i < fieldSize; i++) {
             for (int j = 0; j < fieldSize; j++) {
-                if (field[i][i] != 'x') {
+                if (field[i][i] != playerCellValue) {
                     checkMainDiag = false;
                     break search;
                 } else {
@@ -42,13 +42,13 @@ public class Field {
 
     }
 
-    private boolean checkSubDiag() {
+    private boolean checkSubDiag(char playerCellValue) {
         boolean checkSubDiag = false;
 
         search:
         for (int i = 0; i < fieldSize; i++) {
             for (int j = 0; j < fieldSize; j++) {
-                if (field[i][3 - i -1] != 'x') {
+                if (field[i][3 - i -1] != playerCellValue) {
                     checkSubDiag = false;
                     break search;
                 } else {
@@ -61,11 +61,11 @@ public class Field {
         return checkSubDiag;
     }
 
-    public boolean checkLines() {
+    public boolean checkLines(char playerCellValue) {
         boolean checkLines = false;
 
         for (int i = 0; i < fieldSize; i++) {
-            if (checkHorLine(i) || checkVertLine(i)) {
+            if (checkHorLine(i, playerCellValue) || checkVertLine(i, playerCellValue)) {
                 checkLines = true;
                 break;
             } else {
@@ -75,11 +75,11 @@ public class Field {
         return checkLines;
     }
 
-    public boolean checkVertLine(int lineNumber) {
+    public boolean checkVertLine(int lineNumber, char playerCellValue) {
         boolean checkVertLine = false;
 
         for (int i = 0; i < fieldSize; i++) {
-            if (field[i][lineNumber] != 'x') {
+            if (field[i][lineNumber] != playerCellValue) {
                 checkVertLine = false;
                 break;
             } else {
@@ -89,11 +89,11 @@ public class Field {
         return checkVertLine;
     }
 
-    public boolean checkHorLine(int lineNumber) {
+    public boolean checkHorLine(int lineNumber, char playerCellValue) {
         boolean checkHorLine = false;
 
         for (int i = 0; i < fieldSize; i++) {
-            if (field[lineNumber][i] != 'x') {
+            if (field[lineNumber][i] != playerCellValue) {
                 checkHorLine = false;
                 break;
             } else {

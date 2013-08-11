@@ -9,13 +9,7 @@ public class Main {
 //        field.eraseField();
 //        field.showFields();
 //
-//        while (field.FieldNotFull()) {
-//            field.setFieldCell();
-//            if (field.isWin()) {
-//                System.out.println("Вы выиграли! Игра закончена.");
-//                break;
-//            }
-//        }
+
 
     System.out.println("**************************************************");
     System.out.println("****" + " Добро пожаловать в игру Крестики-Нолики! " + "****");
@@ -43,10 +37,23 @@ public class Main {
     player2.field = player1.field;
     player1.field.eraseField();
     player1.field.showFields();
-    player1.makeMove();
-    player2.makeMove();
 
-
+    while (player1.field.FieldNotFull()) {
+        player1.makeMove();
+        if (player1.field.isWin(player1.ownCellValue)) {
+            System.out.println(player1.name + " выиграл! Игра закончена!");
+            break;
+        }
+        player2.makeMove();
+        if (player2.field.isWin(player1.ownCellValue)) {
+            System.out.println(player2.name + " выиграл! Игра закончена!");
+            break;
+        }
+//        if (field.isWin()) {
+//            System.out.println("Вы выиграли! Игра закончена.");
+//            break;
+//        }
+    }
 
 
     }
