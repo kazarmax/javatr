@@ -1,16 +1,10 @@
 package com.kazarmax;
 
-
-
 public class Main {
 
     public static void main(String[] args) {
-//        Field field = new Field(5);
-//        field.eraseField();
-//        field.showFields();
-//
 
-
+    System.out.println();
     System.out.println("**************************************************");
     System.out.println("****" + " Добро пожаловать в игру Крестики-Нолики! " + "****");
     System.out.println("**************************************************");
@@ -38,21 +32,24 @@ public class Main {
     player1.field.eraseField();
     player1.field.showFields();
 
-    while (player1.field.FieldNotFull()) {
+    while (!player1.field.isFull()) {
         player1.makeMove();
-        if (player1.field.isWin(player1.ownCellValue)) {
+        if (player1.isWinner()) {
             System.out.println(player1.name + " выиграл! Игра закончена!");
             break;
-        }
-        player2.makeMove();
-        if (player2.field.isWin(player1.ownCellValue)) {
-            System.out.println(player2.name + " выиграл! Игра закончена!");
+        } else if (player1.field.isFull()) {
+            System.out.println("Ничья!");
             break;
         }
-//        if (field.isWin()) {
-//            System.out.println("Вы выиграли! Игра закончена.");
-//            break;
-//        }
+
+        player2.makeMove();
+        if (player2.isWinner()) {
+            System.out.println(player2.name + " выиграл! Игра закончена!");
+            break;
+        } else if (player2.field.isFull()) {
+            System.out.println("Ничья!");
+            break;
+        }
     }
 
 

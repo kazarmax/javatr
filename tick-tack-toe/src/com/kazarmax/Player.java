@@ -15,16 +15,15 @@ public class Player {
         Scanner input = new Scanner(System.in);
         name = input.nextLine();
         return name;
-
-    }
-
-    public void manSetFieldCell(int x, int y) {
-        field.manSetFieldCell(x, y, ownCellValue);
     }
 
     public void makeMove() {
         field.getFieldCellCoordinates(name);
         field.setFieldCell(ownCellValue);
+    }
+
+    public boolean isWinner() {
+        return field.isWin(ownCellValue);
     }
 
 

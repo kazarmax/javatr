@@ -4,10 +4,6 @@ import java.util.Scanner;
 
 public class Field {
 
-//    public static char[][] exampleField = {{'x', 'o', 'o'},
-//                                           {'x', 'o', 'o'},
-//                                           {'x', 'o', 'o'}};
-
     public static final int DEFAULT_FIELD_SIZE = 3;
 
     private final int fieldSize;
@@ -57,7 +53,6 @@ public class Field {
                 }
             }
         }
-        //System.out.println("checkSubDiag = " + checkSubDiag);
         return checkSubDiag;
     }
 
@@ -102,7 +97,6 @@ public class Field {
         }
         return checkHorLine;
     }
-
 
 
     public Field() {
@@ -169,7 +163,7 @@ public class Field {
         System.out.println("Номер столбца:");
         fieldCellIndexJ = getFieldCellIndex();
 
-        if (checkIfCorrectCellCoordinates(fieldCellIndexI) && checkIfCorrectCellCoordinates(fieldCellIndexJ)) {
+        if (hasCorrectCellCoordinates(fieldCellIndexI) && hasCorrectCellCoordinates(fieldCellIndexJ)) {
             System.out.println("Вы указали ячейку с координатами: [" + fieldCellIndexI + ", " + fieldCellIndexJ + "]");
         } else {
             System.out.println("Неверные координаты");
@@ -184,13 +178,7 @@ public class Field {
 
     }
 
-    public void manSetFieldCell(int cellCoordI, int cellCoordJ, char playerCellValue) {
-        field[cellCoordI][cellCoordJ] = playerCellValue;
-
-        showFields();
-    }
-
-    private boolean checkIfCorrectCellCoordinates(int i) {
+    private boolean hasCorrectCellCoordinates(int i) {
         if (i >= 0 && i < fieldSize) {
             return true;
         } else {
@@ -198,18 +186,23 @@ public class Field {
         }
     }
 
-    public boolean FieldNotFull() {
+//    private boolean cellIsBusy(int cellIndexI, int cellIndexJ) {
+//        return field[cellIndexI][fieldCellIndexJ] != DEFAULT_FIELD_VALUE;
+//    }
 
-        boolean FieldNotFull = false;
+
+    public boolean isFull() {
+
+        boolean isFull = true;
 
         for (int i = 0; i < fieldSize; i++) {
             for (int j = 0; j < fieldSize; j++) {
                 if (field[i][j] == DEFAULT_FIELD_VALUE) {
-                    FieldNotFull = true;
+                    isFull = false;
                 }
             }
         }
-        return FieldNotFull;
+        return isFull;
     }
 
 
