@@ -5,13 +5,9 @@ import java.util.Scanner;
 public class Field {
 
     public static final int DEFAULT_FIELD_SIZE = 3;
-
-    private final int fieldSize;
-
     private static final char DEFAULT_FIELD_VALUE = ' ';
-
+    private final int fieldSize;
     private final char[][] field;
-
     public int fieldCellIndexI = -1;
     public int fieldCellIndexJ = -1;
 
@@ -98,7 +94,6 @@ public class Field {
         return checkHorLine;
     }
 
-
     public Field() {
         this(DEFAULT_FIELD_SIZE);
     }
@@ -119,7 +114,6 @@ public class Field {
             field[i][lineNumber] = DEFAULT_FIELD_VALUE;
         }
     }
-
 
     public void showFields() {
         System.out.println();
@@ -163,7 +157,7 @@ public class Field {
         System.out.println("Номер столбца:");
         fieldCellIndexJ = getFieldCellIndex();
 
-        if (hasCorrectCellCoordinates(fieldCellIndexI) && hasCorrectCellCoordinates(fieldCellIndexJ)) {
+        if (hasCorrectCellCoordinates(fieldCellIndexI) && hasCorrectCellCoordinates(fieldCellIndexJ) && !cellIsBusy(fieldCellIndexJ, fieldCellIndexI)) {
             System.out.println("Вы указали ячейку с координатами: [" + fieldCellIndexI + ", " + fieldCellIndexJ + "]");
         } else {
             System.out.println("Неверные координаты");
@@ -175,7 +169,6 @@ public class Field {
         field[fieldCellIndexJ][fieldCellIndexI] = playerCellValue;
 
         showFields();
-
     }
 
     private boolean hasCorrectCellCoordinates(int i) {
@@ -186,10 +179,9 @@ public class Field {
         }
     }
 
-//    private boolean cellIsBusy(int cellIndexI, int cellIndexJ) {
-//        return field[cellIndexI][fieldCellIndexJ] != DEFAULT_FIELD_VALUE;
-//    }
-
+    private boolean cellIsBusy(int cellIndexI, int cellIndexJ) {
+        return field[cellIndexI][cellIndexJ] != DEFAULT_FIELD_VALUE;
+    }
 
     public boolean isFull() {
 
