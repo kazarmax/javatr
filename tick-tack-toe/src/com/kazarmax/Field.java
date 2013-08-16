@@ -150,7 +150,7 @@ public class Field {
     }
 
     public void getFieldCellCoordinates(String playerName) {
-
+        System.out.println("**************************************************");
         System.out.println("Введите координаты ячейки, " + playerName);
         System.out.println("Номер строки:");
         fieldCellIndexI = getFieldCellIndex();
