@@ -16,82 +16,60 @@ public class Field {
     }
 
     private boolean checkMainDiag(char playerCellValue) {
-        boolean checkMainDiag = false;
-
-        search:
+        int cellCount = 0;
         for (int i = 0; i < fieldSize; i++) {
             for (int j = 0; j < fieldSize; j++) {
-                if (field[i][i] != playerCellValue) {
-                    checkMainDiag = false;
-                    break search;
-                } else {
-                    checkMainDiag = true;
+                if (field[i][i] == playerCellValue) {
+                    cellCount++;
                     break;
                 }
             }
         }
-        return checkMainDiag;
-
+        return cellCount == fieldSize;
     }
 
     private boolean checkSubDiag(char playerCellValue) {
-        boolean checkSubDiag = false;
-
-        search:
+        int cellCount = 0;
         for (int i = 0; i < fieldSize; i++) {
             for (int j = 0; j < fieldSize; j++) {
-                if (field[i][3 - i -1] != playerCellValue) {
-                    checkSubDiag = false;
-                    break search;
-                } else {
-                    checkSubDiag = true;
+                if (field[i][3 - i -1] == playerCellValue) {
+                    cellCount++;
                     break;
                 }
             }
         }
-        return checkSubDiag;
+        return cellCount == fieldSize;
     }
 
     public boolean checkLines(char playerCellValue) {
         boolean checkLines = false;
-
         for (int i = 0; i < fieldSize; i++) {
             if (checkHorLine(i, playerCellValue) || checkVertLine(i, playerCellValue)) {
                 checkLines = true;
                 break;
-            } else {
-                continue;
             }
         }
         return checkLines;
     }
 
     public boolean checkVertLine(int lineNumber, char playerCellValue) {
-        boolean checkVertLine = false;
-
+        int cellCount = 0;
         for (int i = 0; i < fieldSize; i++) {
-            if (field[i][lineNumber] != playerCellValue) {
-                checkVertLine = false;
-                break;
-            } else {
-                checkVertLine = true;
+            if (field[i][lineNumber] == playerCellValue) {
+                cellCount++;
             }
         }
-        return checkVertLine;
+        return cellCount == fieldSize;
     }
 
     public boolean checkHorLine(int lineNumber, char playerCellValue) {
-        boolean checkHorLine = false;
-
+        int cellCount = 0;
         for (int i = 0; i < fieldSize; i++) {
-            if (field[lineNumber][i] != playerCellValue) {
-                checkHorLine = false;
-                break;
-            } else {
-                checkHorLine = true;
+            if (field[lineNumber][i] == playerCellValue) {
+                cellCount++;
             }
         }
-        return checkHorLine;
+        return cellCount == fieldSize;
     }
 
     public Field() {
@@ -136,11 +114,8 @@ public class Field {
     }
 
     private int getFieldCellIndex() {
-
         int fieldCellIndex;
-
         Scanner sc = new Scanner(System.in);
-
         if (sc.hasNextInt()) {
             fieldCellIndex = sc.nextInt();
             return fieldCellIndex;
@@ -156,7 +131,6 @@ public class Field {
         fieldCellIndexI = getFieldCellIndex();
         System.out.println("Номер столбца:");
         fieldCellIndexJ = getFieldCellIndex();
-
         if (hasCorrectCellCoordinates(fieldCellIndexI) && hasCorrectCellCoordinates(fieldCellIndexJ) && !cellIsBusy(fieldCellIndexJ, fieldCellIndexI)) {
             System.out.println("Вы указали ячейку с координатами: [" + fieldCellIndexI + ", " + fieldCellIndexJ + "]");
         } else {
@@ -167,16 +141,11 @@ public class Field {
 
     public void setFieldCell(char playerCellValue) {
         field[fieldCellIndexJ][fieldCellIndexI] = playerCellValue;
-
         showFields();
     }
 
     private boolean hasCorrectCellCoordinates(int i) {
-        if (i >= 0 && i < fieldSize) {
-            return true;
-        } else {
-            return false;
-        }
+        return (i >= 0) && (i < fieldSize);
     }
 
     private boolean cellIsBusy(int cellIndexI, int cellIndexJ) {
@@ -184,13 +153,12 @@ public class Field {
     }
 
     public boolean isFull() {
-
         boolean isFull = true;
-
         for (int i = 0; i < fieldSize; i++) {
             for (int j = 0; j < fieldSize; j++) {
                 if (field[i][j] == DEFAULT_FIELD_VALUE) {
                     isFull = false;
+                    break;
                 }
             }
         }
