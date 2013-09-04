@@ -1,5 +1,7 @@
 package com.kazarmax;
 
+import java.util.Scanner;
+
 public class Main {
 
     public static void main(String[] args) {
@@ -17,16 +19,17 @@ public class Main {
     System.out.println("Добро пожаловать в игру, " + player1.name + "!" + " Вы будете играть крестиками - x.");
 
     System.out.println();
-    Player player2 = new Player();
-    System.out.println("Введите имя или ник второго игрока:");
-    player2.getName();
-    player2.ownCellValue = 'o';
-    System.out.println("Добро пожаловать в игру, " + player2.name + "!" + " Вы будете играть ноликами - o.");
+    Computer player2 = new Computer();
+//    System.out.println("Введите имя или ник второго игрока:");
+   // player2.getName();
+   // player2.ownCellValue = 'o';
+//    System.out.println("Добро пожаловать в игру, " + player2.name + "!" + " Вы будете играть ноликами - o.");
+    System.out.println("Компьютер будет играть ноликами - o.");
 
     System.out.println();
     System.out.println("************************************************************");
     System.out.println();
-
+    System.out.println("Игровое поле:");
     player1.field = new Field();
     player2.field = player1.field;
     player1.field.eraseField();

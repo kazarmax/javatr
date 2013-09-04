@@ -8,8 +8,28 @@ public class Field {
     private static final char DEFAULT_FIELD_VALUE = ' ';
     private final int fieldSize;
     private final char[][] field;
-    public int fieldCellIndexI = -1;
-    public int fieldCellIndexJ = -1;
+    private int fieldCellIndexI = -1;
+    private int fieldCellIndexJ = -1;
+
+    public int getFieldSize() {
+        return fieldSize;
+    }
+
+    public void setFieldCellIndexI(int fieldCellIndexI) {
+        if (hasCorrectCellCoordinateValue(fieldCellIndexI)) {
+        this.fieldCellIndexI = fieldCellIndexI;
+        } else {
+            System.out.println("Некорректное значение координаты");
+        }
+    }
+
+    public void setFieldCellIndexJ(int fieldCellIndexJ) {
+        if (hasCorrectCellCoordinateValue(fieldCellIndexJ)) {
+            this.fieldCellIndexJ = fieldCellIndexJ;
+        } else {
+            System.out.println("Некорректное значение координаты");
+        }
+    }
 
     public boolean isWin(char playerCellValue) {
         return checkMainDiag(playerCellValue) || checkSubDiag(playerCellValue) || checkLines(playerCellValue);
@@ -18,11 +38,8 @@ public class Field {
     private boolean checkMainDiag(char playerCellValue) {
         int cellCount = 0;
         for (int i = 0; i < fieldSize; i++) {
-            for (int j = 0; j < fieldSize; j++) {
-                if (field[i][i] == playerCellValue) {
-                    cellCount++;
-                    break;
-                }
+            if (field[i][i] == playerCellValue) {
+                cellCount++;
             }
         }
         return cellCount == fieldSize;
@@ -31,11 +48,8 @@ public class Field {
     private boolean checkSubDiag(char playerCellValue) {
         int cellCount = 0;
         for (int i = 0; i < fieldSize; i++) {
-            for (int j = 0; j < fieldSize; j++) {
-                if (field[i][3 - i -1] == playerCellValue) {
-                    cellCount++;
-                    break;
-                }
+            if (field[i][fieldSize - i - 1] == playerCellValue) {
+                cellCount++;
             }
         }
         return cellCount == fieldSize;
@@ -89,7 +103,7 @@ public class Field {
 
     private void eraseLine(int lineNumber) {
         for (int i = 0; i < fieldSize; i++) {
-            field[i][lineNumber] = DEFAULT_FIELD_VALUE;
+            field[lineNumber][i] = DEFAULT_FIELD_VALUE;
         }
     }
 
@@ -105,7 +119,7 @@ public class Field {
 
     private void showLine(int lineNumber) {
         for (int i = 0; i < fieldSize; i++) {
-            showCell(i, lineNumber);
+            showCell(lineNumber, i);
         }
     }
 
@@ -131,7 +145,7 @@ public class Field {
         fieldCellIndexI = getFieldCellIndex();
         System.out.println("Номер столбца:");
         fieldCellIndexJ = getFieldCellIndex();
-        if (hasCorrectCellCoordinates(fieldCellIndexI) && hasCorrectCellCoordinates(fieldCellIndexJ) && !cellIsBusy(fieldCellIndexJ, fieldCellIndexI)) {
+        if (hasCorrectCellCoordinateValue(fieldCellIndexI) && hasCorrectCellCoordinateValue(fieldCellIndexJ) && isCellEmpty(fieldCellIndexI, fieldCellIndexJ)) {
             System.out.println("Вы указали ячейку с координатами: [" + fieldCellIndexI + ", " + fieldCellIndexJ + "]");
         } else {
             System.out.println("Неверные координаты");
@@ -140,16 +154,13 @@ public class Field {
     }
 
     public void setFieldCell(char playerCellValue) {
-        field[fieldCellIndexJ][fieldCellIndexI] = playerCellValue;
+        field[fieldCellIndexI][fieldCellIndexJ] = playerCellValue;
+        System.out.println("Результат хода:");
         showFields();
     }
 
-    private boolean hasCorrectCellCoordinates(int i) {
+    private boolean hasCorrectCellCoordinateValue(int i) {
         return (i >= 0) && (i < fieldSize);
-    }
-
-    private boolean cellIsBusy(int cellIndexI, int cellIndexJ) {
-        return field[cellIndexI][cellIndexJ] != DEFAULT_FIELD_VALUE;
     }
 
     public boolean isFull() {
@@ -164,6 +175,13 @@ public class Field {
         }
         return isFull;
     }
+
+    public boolean isCellEmpty(int coordinateI, int coordinateJ) {
+        return field[coordinateI][coordinateJ] == DEFAULT_FIELD_VALUE;
+    }
+
+
+
 
 
 }
