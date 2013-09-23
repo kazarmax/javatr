@@ -3,176 +3,192 @@ package com.kazarmax;
 public class Computer {
 
     public final String name = "Computer";
-    public char ownCellValue = 'o';
-//    public char enemyCellValue = 'x';
-//    public int cellCoordinateI = -1;
-//    public int cellCoordinateJ = -1;
+    public static final char OWN_CELL_VALUE = 'o';
+    public static final char ENEMY_CELL_VALUE = 'x';
+    private static int bufferCellCoordinateI = -1;
+    private static int bufferCellCoordinateJ = -1;
 
     Field field;
 
 
-    public void fillEmptyCell() {
+    private void fillEmptyCell() {
         search:
         for (int i = 0; i < field.getFieldSize(); i++) {
             for (int j = 0; j < field.getFieldSize(); j++) {
                 if (field.isCellEmpty(i, j)) {
-                    field.setFieldCellIndexI(i);
-                    field.setFieldCellIndexJ(j);
-                    fillCell();
+                    setFieldCellCoordinates(i, j);
+                    fillFieldCell();
                     break search;
                 }
             }
         }
     }
 
-    public void fillCell() {
-        field.setFieldCell(ownCellValue);
+    private void setFieldCellCoordinates(int i, int j) {
+        field.setFieldCellIndexI(i);
+        field.setFieldCellIndexJ(j);
+    }
+
+    private void fillFieldCell() {
+        field.setFieldCell(OWN_CELL_VALUE);
     }
 
     public boolean isWinner() {
-        return field.isWin(ownCellValue);
+        return field.isWin(OWN_CELL_VALUE);
     }
 
     public void makeMove() {
         System.out.println("**************************************************");
         System.out.println("Ход компьютера ...");
-        fillEmptyCell();
+
+        if (checkMainDiag(OWN_CELL_VALUE)) {
+            setFieldCellCoordinates(bufferCellCoordinateI, bufferCellCoordinateJ);
+            fillFieldCell();
+        } else if (checkSubDiag(OWN_CELL_VALUE)) {
+            setFieldCellCoordinates(bufferCellCoordinateI, bufferCellCoordinateJ);
+            fillFieldCell();
+        }
+        else if (checkHorLine(OWN_CELL_VALUE)) {
+            setFieldCellCoordinates(bufferCellCoordinateI, bufferCellCoordinateJ);
+            fillFieldCell();
+        }
+        else if (checkVertLine(OWN_CELL_VALUE)) {
+            setFieldCellCoordinates(bufferCellCoordinateI, bufferCellCoordinateJ);
+            fillFieldCell();
+        }
+        else if (checkMainDiag(ENEMY_CELL_VALUE)) {
+            setFieldCellCoordinates(bufferCellCoordinateI, bufferCellCoordinateJ);
+            fillFieldCell();
+        }
+        else if (checkSubDiag(ENEMY_CELL_VALUE)) {
+            setFieldCellCoordinates(bufferCellCoordinateI, bufferCellCoordinateJ);
+            fillFieldCell();
+        }
+        else if (checkHorLine(ENEMY_CELL_VALUE)) {
+            setFieldCellCoordinates(bufferCellCoordinateI, bufferCellCoordinateJ);
+            fillFieldCell();
+        }
+        else if (checkVertLine(ENEMY_CELL_VALUE)) {
+            setFieldCellCoordinates(bufferCellCoordinateI, bufferCellCoordinateJ);
+            fillFieldCell();
+        }
+        else {
+            fillEmptyCell();
+        }
     }
 
-//    public void showField() {
-//        for (int i = 0; i < 3; i++) {
-//            for (int j = 0; j < 3; j++) {
-//                System.out.print("[" + testField[i][j] + "]");
-//            }
-//            System.out.println();
-//        }
-//
-//    }
+    private boolean checkHorLine(char playerCellValue) {
+        boolean checkHorLine = false;
+        int cellCount = 0;
+        search:
+        for (int i = 0; i < field.getFieldSize(); i++) {
+            cellCount = 0;
+            for (int j = 0; j < field.getFieldSize(); j++) {
+                if (field.getFieldCellValue(i,j) == playerCellValue) {
+                    cellCount++;
+                }
+            }
+            if (cellCount == field.getFieldSize() - 1 && hasHorEmptyCell(i)) {
+                checkHorLine = true;
+                bufferCellCoordinateI = i;
+                break search;
+            }
+        }
+        return checkHorLine;
+    }
 
-    //    public boolean checkHorLine(char playerCellValue) {
-//        boolean checkHorLine = false;
-//        int cellCount = 0;
-//        search:
-//        for (int i = 0; i < 3; i++) {
-//            cellCount = 0;
-//            for (int j = 0; j < 3; j++) {
-//                if (testField[i][j] == playerCellValue) {
-//                    cellCount++;
-//                }
-//            }
-//            if (cellCount == 2) {
-//                checkHorLine = true;
-//                System.out.println("i = " + i);
-//                findHorCell(i);
-//                break search;
-//            }
-//        }
-//        System.out.println("checkHorLine = " + checkHorLine);
-//        return checkHorLine;
-//    }
-//
-//    public void findHorCell(int lineNumber) {
-//        for (int j = 0; j < 3; j++) {
-//            if (testField[lineNumber][j] == ' ') {
-//                System.out.println("j = " + j);
-//                cellCoordinateI = lineNumber;
-//                cellCoordinateJ = j;
-//                fillCell();
-//                showField();
-//
-//            }
-//        }
-//    }
+    private boolean hasHorEmptyCell(int lineNumber) {
+        boolean hasHorEmptyCell = false;
+        for (int j = 0; j < field.getFieldSize(); j++) {
+            if (field.getFieldCellValue(lineNumber, j) == ' ') {
+                hasHorEmptyCell = true;
+                bufferCellCoordinateJ = j;
+            }
+        }
+        return hasHorEmptyCell;
+    }
 
-//        public boolean checkVertLine(char playerCellValue) {
-//        boolean checkVertLine = false;
-//        int cellCount = 0;
-//        for (int i = 0; i < 3; i++) {
-//            cellCount = 0;
-//            for (int j = 0; j < 3; j++) {
-//                if (testField[j][i] == playerCellValue) {
-//                    cellCount++;
-//                }
-//            }
-//            if (cellCount == 2) {
-//                checkVertLine = true;
-//                System.out.println("j = " + i);
-//                findVertCell(i);
-//            }
-//        }
-//        System.out.println("checkVertLine = " + checkVertLine);
-//        return checkVertLine;
-//    }
-//
-//    public void findVertCell(int lineNumber) {
-//        for (int i = 0; i < 3; i++) {
-//            if (testField[i][lineNumber] == ' ') {
-//                System.out.println("i = " + i);
-//                cellCoordinateI = i;
-//                cellCoordinateJ = lineNumber;
-//                fillCell();
-//            }
-//        }
-//    }
-//
-//    public boolean checkMainDiag(char playerCellValue) {
-//        boolean checkMainDiag = false;
-//        int cellCount = 0;
-//            for (int i = 0; i < 3; i++) {
-//                if (testField[i][i] == playerCellValue) {
-//                    cellCount++;
-//                }
-//            }
-//            if (cellCount == 2) {
-//                checkMainDiag = true;
-//                findMainDiagCell();
-//                fillCell();
-//            }
-//        System.out.println("checkMainDiag = " + checkMainDiag);
-//        return checkMainDiag;
-//    }
-//
-//    public void findMainDiagCell() {
-//        for (int i = 0; i < 3; i++) {
-//                if (testField[i][i] == ' ') {
-//                    cellCoordinateI = i;
-//                    cellCoordinateJ = i;
-//                    System.out.println("i = " + i);
-//                }
-//        }
-//    }
-//
-//    public boolean checkSubDiag(char playerCellValue) {
-//        boolean checkSubDiag = false;
-//        int cellCount = 0;
-//        for (int i = 0; i < 3; i++) {
-//            if (testField[i][3 - i -1] == playerCellValue) {
-//                cellCount++;
-//            }
-//        }
-//        if (cellCount == 2) {
-//            checkSubDiag = true;
-//            findSubDiagCell();
-//            fillCell();
-//        }
-//        System.out.println("checkSubDiag = " + checkSubDiag);
-//        return checkSubDiag;
-//    }
-//
-//    public void findSubDiagCell() {
-//        for (int i = 0; i < 3; i++) {
-//            if (testField[i][3 - i -1] == ' ') {
-//                cellCoordinateI = i;
-//                cellCoordinateJ = 3 - i -1;
-//                System.out.println("i = " + i);
-//                System.out.println("j = " + cellCoordinateJ);
-//            }
-//        }
-//    }
+    private boolean checkVertLine(char playerCellValue) {
+        boolean checkVertLine = false;
+        int cellCount = 0;
+        search:
+        for (int j = 0; j < field.getFieldSize(); j++) {
+            cellCount = 0;
+            for (int i = 0; i < field.getFieldSize(); i++) {
+                if (field.getFieldCellValue(i,j) == playerCellValue) {
+                    cellCount++;
+                }
+            }
+            if (cellCount == field.getFieldSize() - 1 && hasVertEmptyCell(j)) {
+                checkVertLine = true;
+                bufferCellCoordinateJ = j;
+                break search;
+            }
+        }
+        return checkVertLine;
+    }
 
-//    public boolean isCellEmpty(int coordinateI, int coordinateJ) {
-//        return testField[coordinateI][coordinateJ] == ' ';
-//    }
+    private boolean hasVertEmptyCell(int lineNumber) {
+        boolean hasVertEmptyCell = false;
+        for (int i = 0; i < field.getFieldSize(); i++) {
+            if (field.getFieldCellValue(i, lineNumber) == ' ') {
+                hasVertEmptyCell = true;
+                bufferCellCoordinateI = i;
+            }
+        }
+        return hasVertEmptyCell;
+    }
 
+    private boolean checkMainDiag(char playerCellValue) {
+        boolean checkMainDiag = false;
+        int cellCount = 0;
+            for (int i = 0; i < field.getFieldSize(); i++) {
+                if (field.getFieldCellValue(i, i) == playerCellValue) {
+                    cellCount++;
+                }
+            }
+            if (cellCount == field.getFieldSize() - 1 && hasMainDiagEmptyCell()) {
+                checkMainDiag = true;
+            }
+        return checkMainDiag;
+    }
+
+    private boolean hasMainDiagEmptyCell() {
+        boolean hasMainDiagEmptyCell = false;
+        for (int i = 0; i < field.getFieldSize(); i++) {
+                if (field.getFieldCellValue(i, i) == ' ') {
+                    hasMainDiagEmptyCell = true;
+                    bufferCellCoordinateI = i;
+                    bufferCellCoordinateJ = i;
+                }
+        }
+        return hasMainDiagEmptyCell;
+    }
+
+    private boolean checkSubDiag(char playerCellValue) {
+        boolean checkSubDiag = false;
+        int cellCount = 0;
+        for (int i = 0; i < field.getFieldSize(); i++) {
+            if (field.getFieldCellValue(i, field.getFieldSize() - i -1) == playerCellValue) {
+                cellCount++;
+            }
+        }
+        if (cellCount == field.getFieldSize() - 1 && hasSubDiagEmptyCell()) {
+            checkSubDiag = true;
+        }
+        return checkSubDiag;
+    }
+
+    private boolean hasSubDiagEmptyCell() {
+        boolean hasSubDiagEmptyCell = false;
+        for (int i = 0; i < field.getFieldSize(); i++) {
+            if (field.getFieldCellValue(i, field.getFieldSize() - i -1) == ' ') {
+                hasSubDiagEmptyCell = true;
+                bufferCellCoordinateI = i;
+                bufferCellCoordinateJ = field.getFieldSize() - i -1;
+            }
+        }
+        return hasSubDiagEmptyCell;
+    }
 
 }

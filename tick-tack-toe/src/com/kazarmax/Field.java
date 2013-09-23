@@ -15,6 +15,10 @@ public class Field {
         return fieldSize;
     }
 
+    public char getFieldCellValue(int fieldCellIndexI, int fieldCellIndexJ) {
+        return field[fieldCellIndexI][fieldCellIndexJ];
+    }
+
     public void setFieldCellIndexI(int fieldCellIndexI) {
         if (hasCorrectCellCoordinateValue(fieldCellIndexI)) {
         this.fieldCellIndexI = fieldCellIndexI;
