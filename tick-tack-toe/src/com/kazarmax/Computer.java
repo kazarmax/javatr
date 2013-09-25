@@ -7,6 +7,7 @@ public class Computer {
     public static final char ENEMY_CELL_VALUE = 'x';
     private static int bufferCellCoordinateI = -1;
     private static int bufferCellCoordinateJ = -1;
+    private static boolean computerActionRequired = true;
 
     Field field;
 
@@ -37,42 +38,40 @@ public class Computer {
         return field.isWin(OWN_CELL_VALUE);
     }
 
+    private void computerAction(char playerCellValue) {
+        computerActionRequired = true;
+
+        if (checkMainDiag(playerCellValue)) {
+            setFieldCellCoordinates(bufferCellCoordinateI, bufferCellCoordinateJ);
+            fillFieldCell();
+            computerActionRequired = false;
+        }
+        else if (checkSubDiag(playerCellValue)) {
+            setFieldCellCoordinates(bufferCellCoordinateI, bufferCellCoordinateJ);
+            fillFieldCell();
+            computerActionRequired = false;
+        }
+        else if (checkHorLine(playerCellValue)) {
+            setFieldCellCoordinates(bufferCellCoordinateI, bufferCellCoordinateJ);
+            fillFieldCell();
+            computerActionRequired = false;
+        }
+        else if (checkVertLine(playerCellValue)) {
+            setFieldCellCoordinates(bufferCellCoordinateI, bufferCellCoordinateJ);
+            fillFieldCell();
+            computerActionRequired = false;
+        }
+    }
+
     public void makeMove() {
         System.out.println("**************************************************");
         System.out.println("Ход компьютера ...");
 
-        if (checkMainDiag(OWN_CELL_VALUE)) {
-            setFieldCellCoordinates(bufferCellCoordinateI, bufferCellCoordinateJ);
-            fillFieldCell();
-        } else if (checkSubDiag(OWN_CELL_VALUE)) {
-            setFieldCellCoordinates(bufferCellCoordinateI, bufferCellCoordinateJ);
-            fillFieldCell();
+        computerAction(OWN_CELL_VALUE);
+        if (computerActionRequired) {
+            computerAction(ENEMY_CELL_VALUE);
         }
-        else if (checkHorLine(OWN_CELL_VALUE)) {
-            setFieldCellCoordinates(bufferCellCoordinateI, bufferCellCoordinateJ);
-            fillFieldCell();
-        }
-        else if (checkVertLine(OWN_CELL_VALUE)) {
-            setFieldCellCoordinates(bufferCellCoordinateI, bufferCellCoordinateJ);
-            fillFieldCell();
-        }
-        else if (checkMainDiag(ENEMY_CELL_VALUE)) {
-            setFieldCellCoordinates(bufferCellCoordinateI, bufferCellCoordinateJ);
-            fillFieldCell();
-        }
-        else if (checkSubDiag(ENEMY_CELL_VALUE)) {
-            setFieldCellCoordinates(bufferCellCoordinateI, bufferCellCoordinateJ);
-            fillFieldCell();
-        }
-        else if (checkHorLine(ENEMY_CELL_VALUE)) {
-            setFieldCellCoordinates(bufferCellCoordinateI, bufferCellCoordinateJ);
-            fillFieldCell();
-        }
-        else if (checkVertLine(ENEMY_CELL_VALUE)) {
-            setFieldCellCoordinates(bufferCellCoordinateI, bufferCellCoordinateJ);
-            fillFieldCell();
-        }
-        else {
+        if (computerActionRequired) {
             fillEmptyCell();
         }
     }
